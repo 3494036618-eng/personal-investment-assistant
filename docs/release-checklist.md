@@ -29,7 +29,7 @@
 - [x] 发布范围只包含应用源码、中文 Skill、测试和说明文档；不包含 API Key、本地数据库、日志、真实报告、Provider 原始返回或运行备份。
 - [x] 采用用户自备 Agent Plan Key 的本地运行模式；第三方数据和服务的使用仍由使用者遵守其账号权限、服务条款和许可要求。
 - [x] 项目未附带宣传截图或第三方品牌素材；README 已明确独立项目属性和第三方名称、商标的权利归属。
-- [x] 创建 GitHub 公开仓库 [`3494036618-eng/personal-investment-assistant`](https://github.com/3494036618-eng/personal-investment-assistant)，并准备 `v0.1.1` 标签、SHA-256 校验和与 Release Notes。
+- [x] 创建 GitHub 公开仓库 [`3494036618-eng/personal-investment-assistant`](https://github.com/3494036618-eng/personal-investment-assistant)，并准备 `v0.1.2` 标签、SHA-256 校验和与 Release Notes。
 - [x] GitHub 仓库已启用私密安全报告渠道；`SECURITY.md` 要求安全问题不得进入公开 Issue。
 - [x] 对最终 Git 候选内容完成独立凭证、数据库、日志、大文件和大段 Provider 返回扫描。
 

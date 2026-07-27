@@ -29,7 +29,7 @@ Skill 会先收集用户配置：
 
 ## 前置条件
 
-- Node.js 22.5 或更高版本。
+- Node.js 22.13 或更高版本。
 - npm。
 - 已开通并启用 DataPro、豆包搜索 Harness 的 Agent Plan。
 - 一枚有效的 Agent Plan API Key。

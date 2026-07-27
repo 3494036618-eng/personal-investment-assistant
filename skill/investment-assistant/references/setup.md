@@ -2,7 +2,7 @@
 
 ## 前置条件
 
-- Node.js 22.5 或更高版本。
+- Node.js 22.13 或更高版本。
 - npm。
 - 已开通火山方舟 Agent Plan。
 - Agent Plan 已启用 DataPro 和豆包搜索 Harness。

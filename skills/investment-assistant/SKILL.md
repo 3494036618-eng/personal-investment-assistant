@@ -12,20 +12,20 @@ description: 中文个人投资助手初始化 Skill。引导用户确认真实�
 用户可能直接通过下面的公开 Skill URL 触发本流程，而不是预先克隆仓库或安装 Skill：
 
 ```text
-https://github.com/3494036618-eng/personal-investment-assistant/blob/main/skill/investment-assistant/SKILL.md
+https://github.com/3494036618-eng/personal-investment-assistant/blob/main/skills/investment-assistant/SKILL.md
 ```
 
 如果当前环境中不存在 `{baseDir}/scripts/status.mjs`，说明本 Skill 是从远程 URL 打开的。此时 Agent 必须：
 
 1. 获取完整仓库 `https://github.com/3494036618-eng/personal-investment-assistant`，不能只下载 `SKILL.md`。
-2. 将 `{baseDir}` 设为仓库中的 `skill/investment-assistant` 目录。
-3. 确认 `scripts/`、`references/` 和 `assets/app/` 均存在后，再进入阶段 0。
+2. 将 `{baseDir}` 设为仓库中的 `skills/investment-assistant` 目录。
+3. 确认 `{baseDir}/scripts/`、`{baseDir}/references/` 和仓库根目录 `app/` 均存在后，再进入阶段 0。
 4. 已有同名目录时先核对 Git remote 和工作区状态，不覆盖用户改动，不创建第二套应用。
 
 用户可直接把这句话交给支持联网和终端操作的 Agent：
 
 ```text
-帮我初始化个人投资助手：https://github.com/3494036618-eng/personal-investment-assistant/blob/main/skill/investment-assistant/SKILL.md
+帮我初始化个人投资助手：https://github.com/3494036618-eng/personal-investment-assistant/blob/main/skills/investment-assistant/SKILL.md
 ```
 
 ## 完成标准

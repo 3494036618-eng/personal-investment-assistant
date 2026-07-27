@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { DataProProvider, dataProInternals } from '../../src/server/providers/datapro.js';
 import { webSearchInternals } from '../../src/server/providers/web-search.js';
 import { WebSearchProvider } from '../../src/server/providers/web-search.js';
-import { arkModelInternals } from '../../src/server/providers/ark-model.js';
+import { agentPlanModelInternals } from '../../src/server/providers/agent-plan-model.js';
 
 test('parses DataPro structured content and nested items', () => {
   const payload = dataProInternals.parsePayload({ structuredContent: { data: { items: [{ table: { 收盘价: [10] } }] } } });
@@ -170,15 +170,15 @@ test('does not label a same-brand site name as a reprint host', () => {
 });
 
 test('extracts Responses API output text', () => {
-  assert.equal(arkModelInternals.extractOutputText({ output_text: '{"ok":true}' }), '{"ok":true}');
-  assert.equal(arkModelInternals.extractOutputText({
+  assert.equal(agentPlanModelInternals.extractOutputText({ output_text: '{"ok":true}' }), '{"ok":true}');
+  assert.equal(agentPlanModelInternals.extractOutputText({
     output: [{ content: [{ type: 'output_text', text: '{"ok":true}' }] }],
   }), '{"ok":true}');
 });
 
 test('repairs a syntax-only missing object terminator from structured output', () => {
   const malformed = '{"ok":true';
-  const parsed = arkModelInternals.parseJsonOutput(malformed);
+  const parsed = agentPlanModelInternals.parseJsonOutput(malformed);
   assert.equal(parsed.repaired, true);
   assert.equal(parsed.data.ok, true);
 });

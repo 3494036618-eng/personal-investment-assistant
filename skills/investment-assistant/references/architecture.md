@@ -2,12 +2,14 @@
 
 ## 目录与运行模型
 
-1. `assets/app`：随 Skill 分发的完整开源应用源码。
-2. `~/.local/share/investment-assistant/app`：经过依赖安装、检查、测试和构建后的生产运行时。
-3. `~/.config/investment-assistant`：本机私密配置。
-4. `~/.local/share/investment-assistant`：SQLite、日志、备份和运行状态。
+1. 仓库根目录 `app/`：唯一的完整开源应用源码。
+2. `skills/investment-assistant/`：符合 Agent Skills 规范的初始化 Skill，仅保存指令、编排脚本和参考规则。
+3. 已安装 Skill 的 `assets/app/`：由仓库级安装器从根目录 `app/` 生成的自包含应用安装包，不是第二份源码。
+4. `~/.local/share/investment-assistant/app`：经过依赖安装、检查、测试和构建后的生产运行时。
+5. `~/.config/investment-assistant`：本机私密配置。
+6. `~/.local/share/investment-assistant`：SQLite、日志、备份和运行状态。
 
-用户不需要创建第二份前后端项目。`install.mjs` 默认从 `assets/app` 安装，并通过临时目录和原子替换更新运行时。
+从克隆仓库执行时，`install.mjs` 读取根目录 `app/`；从已安装 Skill 执行时读取随 Skill 生成的 `assets/app/`。两种方式都通过临时目录和原子替换更新运行时，用户不需要创建第二份前后端项目。
 
 ## 数据流
 

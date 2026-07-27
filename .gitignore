@@ -16,4 +16,4 @@ credentials.env
 *.db
 *.db-*
 .private/
-skill/investment-assistant/assets/app/data/
+app/data/

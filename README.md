@@ -15,7 +15,7 @@
 开源用户不需要讨论网站设计，也不需要自己搭前后端。可以直接把下面这句话发给支持联网和终端操作的 Agent：
 
 ```text
-帮我初始化个人投资助手：https://github.com/3494036618-eng/personal-investment-assistant/blob/main/skill/investment-assistant/SKILL.md
+帮我初始化个人投资助手：https://github.com/3494036618-eng/personal-investment-assistant/blob/main/skills/investment-assistant/SKILL.md
 ```
 
 该地址直接指向中文 Skill 入口。Agent 会获取完整 Skill 目录及随附的脚本、参考规则和应用资源，然后进入初始化流程。
@@ -73,7 +73,7 @@ npm run skill:install -- --force
 9. 为每只证券生成两类首批报告。
 10. 检查来源、历史、调度和桌面端用户路径。
 
-完整规则见 [SKILL.md](skill/investment-assistant/SKILL.md)。
+完整规则见 [SKILL.md](skills/investment-assistant/SKILL.md)。
 
 ## 手动初始化
 
@@ -101,7 +101,7 @@ Skill 会把用户确认的配置写入权限为 `0600` 的临时 JSON：
 随后执行：
 
 ```bash
-node skill/investment-assistant/scripts/onboard.mjs \
+node skills/investment-assistant/scripts/onboard.mjs \
   --profile /私密Profile绝对路径.json \
   --consume-profile
 ```
@@ -116,24 +116,24 @@ node skill/investment-assistant/scripts/onboard.mjs \
 
 ```bash
 # 安装、检查、测试和构建仓库内应用
-node skill/investment-assistant/scripts/install.mjs
+node skills/investment-assistant/scripts/install.mjs
 
 # 隐藏输入一枚 Agent Plan Key
-node skill/investment-assistant/scripts/configure.mjs
+node skills/investment-assistant/scripts/configure.mjs
 
 # 真实探测三个 Provider
-node skill/investment-assistant/scripts/doctor.mjs --live
+node skills/investment-assistant/scripts/doctor.mjs --live
 
 # 启动网站
-node skill/investment-assistant/scripts/start.mjs
+node skills/investment-assistant/scripts/start.mjs
 
 # 导入关注偏好
-node skill/investment-assistant/scripts/profile.mjs \
+node skills/investment-assistant/scripts/profile.mjs \
   --input /私密Profile绝对路径.json \
   --consume-profile
 
 # 为全部证券生成首份简评和盘后摘要
-node skill/investment-assistant/scripts/acceptance.mjs --all --seed
+node skills/investment-assistant/scripts/acceptance.mjs --all --seed
 ```
 
 默认网站地址是 `http://127.0.0.1:8788`。
@@ -185,12 +185,12 @@ node skill/investment-assistant/scripts/acceptance.mjs --all --seed
 ## 日常运维
 
 ```bash
-node skill/investment-assistant/scripts/status.mjs
-node skill/investment-assistant/scripts/doctor.mjs --live
-node skill/investment-assistant/scripts/usage.mjs
-node skill/investment-assistant/scripts/stop.mjs
-node skill/investment-assistant/scripts/backup.mjs
-node skill/investment-assistant/scripts/restore.mjs /备份文件.sqlite --yes
+node skills/investment-assistant/scripts/status.mjs
+node skills/investment-assistant/scripts/doctor.mjs --live
+node skills/investment-assistant/scripts/usage.mjs
+node skills/investment-assistant/scripts/stop.mjs
+node skills/investment-assistant/scripts/backup.mjs
+node skills/investment-assistant/scripts/restore.mjs /备份文件.sqlite --yes
 ```
 
 凭证保存在 `~/.config/investment-assistant/credentials.env`，权限为 `0600`。应用运行时、SQLite、日志和备份位于 `~/.local/share/investment-assistant`。更新应用不会主动删除数据库或凭证。
@@ -210,15 +210,20 @@ npm run app:dev
 ## 目录结构
 
 ```text
-skill/investment-assistant/
-├── SKILL.md
-├── agents/openai.yaml
-├── scripts/
-├── references/
-└── assets/app/
-    ├── src/server/
-    ├── src/web/
-    └── tests/
+app/
+├── src/server/
+├── src/web/
+└── tests/
+
+skills/
+└── investment-assistant/
+    ├── SKILL.md
+    ├── agents/openai.yaml
+    ├── scripts/
+    └── references/
+
+scripts/
+└── 仓库级 Skill 安装与验证脚本
 ```
 
 ## 安全与免责声明

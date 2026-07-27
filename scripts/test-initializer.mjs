@@ -2,18 +2,20 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import {
   assertPreferenceCoverage,
   assertReportSourcePolicy,
   canonicalSecurityCode,
-} from '../skill/investment-assistant/scripts/acceptance-validators.mjs';
+} from '../skills/investment-assistant/scripts/acceptance-validators.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const skillRoot = path.join(root, 'skill', 'investment-assistant');
+const skillRoot = path.join(root, 'skills', 'investment-assistant');
 const sandbox = fs.mkdtempSync(path.join(os.tmpdir(), 'investment-assistant-initializer-'));
 const configDir = path.join(sandbox, 'config');
 const installRoot = path.join(sandbox, 'runtime');
+const codexHome = path.join(sandbox, 'codex');
 fs.mkdirSync(configDir, { recursive: true });
 fs.writeFileSync(path.join(configDir, 'credentials.env'), [
   'ARK_API_KEY="single-agent-plan-key"',
@@ -31,9 +33,9 @@ try {
     configuredCredentials,
     paths,
     sanitizedNpmEnvironment,
-  } = await import('../skill/investment-assistant/scripts/lib.mjs');
+  } = await import('../skills/investment-assistant/scripts/lib.mjs');
   const { loadConfig, publicConfig } = await import(
-    '../skill/investment-assistant/assets/app/src/server/config.js'
+    '../app/src/server/config.js'
   );
 
   const credentials = configuredCredentials();
@@ -53,6 +55,18 @@ try {
   assert.equal(config.webSearch.apiKey, 'single-agent-plan-key');
   assert.deepEqual(publicConfig(config).providers.web_search, { configured: true });
   assertApplicationSource(paths.sourceApp);
+  assert.equal(paths.sourceApp, path.join(root, 'app'));
+
+  const installResult = spawnSync(process.execPath, [
+    path.join(root, 'scripts', 'install-codex-skill.mjs'),
+  ], {
+    env: { ...process.env, CODEX_HOME: codexHome },
+    encoding: 'utf8',
+  });
+  assert.equal(installResult.status, 0, installResult.stderr || installResult.stdout);
+  const installedSkill = path.join(codexHome, 'skills', 'investment-assistant');
+  assert.ok(fs.existsSync(path.join(installedSkill, 'SKILL.md')));
+  assertApplicationSource(path.join(installedSkill, 'assets', 'app'));
 
   const onboardText = fs.readFileSync(path.join(skillRoot, 'scripts', 'onboard.mjs'), 'utf8');
   assert.doesNotMatch(onboardText, /project\.mjs|--target/u);
@@ -138,7 +152,7 @@ try {
   assert.equal(canonicalSecurityCode('NASDAQ:AAPL'), 'AAPL');
 
   process.stdout.write(
-    'Initializer single-key configuration, packaged app, onboarding flow, credential isolation, and acceptance validators passed.\n',
+    'Initializer single-key configuration, separated app source, self-contained Skill packaging, onboarding flow, credential isolation, and acceptance validators passed.\n',
   );
 } finally {
   fs.rmSync(sandbox, { recursive: true, force: true });

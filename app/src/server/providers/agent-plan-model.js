@@ -34,7 +34,7 @@ function parseJsonOutput(text) {
   }
 }
 
-export class ArkModelProvider {
+export class AgentPlanModelProvider {
   constructor(config) {
     this.config = config;
     this.name = 'ark_model';
@@ -119,4 +119,4 @@ export class ArkModelProvider {
   }
 }
 
-export const arkModelInternals = { extractOutputText, parseJsonOutput };
+export const agentPlanModelInternals = { extractOutputText, parseJsonOutput };

@@ -4,7 +4,8 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const skillRoot = path.join(root, 'skill', 'investment-assistant');
+const skillRoot = path.join(root, 'skills', 'investment-assistant');
+const appRoot = path.join(root, 'app');
 const skillFile = path.join(skillRoot, 'SKILL.md');
 const requiredFiles = [
   'SKILL.md',
@@ -26,14 +27,25 @@ const requiredFiles = [
   'references/architecture.md',
   'references/evidence-policy.md',
   'references/troubleshooting.md',
-  'assets/app/package.json',
-  'assets/app/package-lock.json',
-  'assets/app/.gitignore',
-  'assets/app/README.md',
 ];
 
 for (const relative of requiredFiles) {
   if (!fs.existsSync(path.join(skillRoot, relative))) throw new Error(`Skill 缺少文件：${relative}`);
+}
+
+for (const relative of [
+  'package.json',
+  'package-lock.json',
+  '.gitignore',
+  'README.md',
+  'src/server/index.js',
+  'src/web',
+  'tests',
+]) {
+  if (!fs.existsSync(path.join(appRoot, relative))) throw new Error(`应用源码缺少文件：app/${relative}`);
+}
+if (fs.existsSync(path.join(skillRoot, 'assets', 'app'))) {
+  throw new Error('仓库中不得保留重复应用源码：skills/investment-assistant/assets/app');
 }
 
 for (const obsolete of [
@@ -55,6 +67,7 @@ const skillText = fs.readFileSync(skillFile, 'utf8');
 const frontmatter = skillText.match(/^---\n([\s\S]*?)\n---\n/);
 if (!frontmatter) throw new Error('SKILL.md 缺少 YAML frontmatter。');
 if (!/^name:\s*investment-assistant\s*$/m.test(frontmatter[1])) throw new Error('Skill name 不正确。');
+if (path.basename(skillRoot) !== 'investment-assistant') throw new Error('Skill 目录名必须与 name 一致。');
 if (!/^description:\s*\S.+$/m.test(frontmatter[1])) throw new Error('Skill description 不能为空。');
 if (!/[\u3400-\u9fff]/.test(frontmatter[1])) throw new Error('Skill description 必须使用中文。');
 if (!skillText.includes('# 个人投资助手初始化')) throw new Error('SKILL.md 缺少中文初始化主标题。');
@@ -79,6 +92,7 @@ for (const requiredText of [
   'node {baseDir}/scripts/acceptance.mjs --all --seed',
   '每只股票至少生成一份个股简评和一份盘后风险摘要',
   '两类报告职责不同',
+  '/skills/investment-assistant/SKILL.md',
 ]) {
   if (!skillText.includes(requiredText)) throw new Error(`SKILL.md 缺少初始化关键规则：${requiredText}`);
 }
@@ -90,6 +104,7 @@ for (const forbidden of [
   'project.mjs',
   '--target',
   'my-investment-assistant',
+  '/skill/investment-assistant/',
 ]) {
   if (skillText.includes(forbidden)) throw new Error(`SKILL.md 仍包含废弃 Builder 流程：${forbidden}`);
 }

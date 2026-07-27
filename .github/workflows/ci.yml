@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: '22.13'
           cache: npm
-          cache-dependency-path: skill/investment-assistant/assets/app/package-lock.json
+          cache-dependency-path: app/package-lock.json
       - run: npm ci
-        working-directory: skill/investment-assistant/assets/app
+        working-directory: app
       - run: npm run verify

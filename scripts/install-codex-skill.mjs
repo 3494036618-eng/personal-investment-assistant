@@ -17,13 +17,15 @@ if (!globalThis[fatalHandler]) {
 }
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const source = path.join(root, 'skill', 'investment-assistant');
+const source = path.join(root, 'skills', 'investment-assistant');
+const appSource = path.join(root, 'app');
 const codexHome = path.resolve(process.env.CODEX_HOME || path.join(os.homedir(), '.codex'));
 const skillsRoot = path.join(codexHome, 'skills');
 const target = path.join(skillsRoot, 'investment-assistant');
 const force = process.argv.includes('--force');
 
 if (!fs.existsSync(path.join(source, 'SKILL.md'))) throw new Error(`Skill 源目录无效：${source}`);
+if (!fs.existsSync(path.join(appSource, 'package.json'))) throw new Error(`应用源码目录无效：${appSource}`);
 if (fs.existsSync(target) && !force) {
   throw new Error(`Skill 已存在：${target}。如需更新，请追加 --force。`);
 }
@@ -32,15 +34,33 @@ fs.mkdirSync(skillsRoot, { recursive: true, mode: 0o700 });
 const staging = path.join(skillsRoot, `.investment-assistant-${randomUUID()}.install`);
 const backup = path.join(skillsRoot, '.investment-assistant.previous');
 
+function copyFilter(rootPath, entry) {
+  const relative = path.relative(rootPath, entry);
+  if (!relative) return true;
+  const segments = relative.split(path.sep);
+  if (segments.some((segment) => [
+    'node_modules',
+    'dist',
+    '.git',
+    'coverage',
+    'data',
+  ].includes(segment))) return false;
+  const name = path.basename(entry);
+  if (name === '.DS_Store' || name === '.env') return false;
+  if (name.startsWith('.env.') && name !== '.env.example') return false;
+  return !/\.(?:sqlite(?:-shm|-wal)?|log|pid)$/i.test(name);
+}
+
 try {
   fs.cpSync(source, staging, {
     recursive: true,
     force: true,
-    filter: (entry) => {
-      const relative = path.relative(source, entry);
-      const segments = relative.split(path.sep);
-      return !segments.includes('node_modules') && !segments.includes('dist') && !segments.includes('.git');
-    },
+    filter: (entry) => copyFilter(source, entry),
+  });
+  fs.cpSync(appSource, path.join(staging, 'assets', 'app'), {
+    recursive: true,
+    force: true,
+    filter: (entry) => copyFilter(appSource, entry),
   });
   fs.rmSync(backup, { recursive: true, force: true });
   if (fs.existsSync(target)) fs.renameSync(target, backup);

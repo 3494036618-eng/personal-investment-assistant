@@ -30,6 +30,7 @@
 - [x] 采用用户自备 Agent Plan Key 的本地运行模式；第三方数据和服务的使用仍由使用者遵守其账号权限、服务条款和许可要求。
 - [x] 项目未附带宣传截图或第三方品牌素材；README 已明确独立项目属性和第三方名称、商标的权利归属。
 - [x] 创建 GitHub 公开仓库 [`3494036618-eng/personal-investment-assistant`](https://github.com/3494036618-eng/personal-investment-assistant)，并准备 `v0.1.3` 标签、SHA-256 校验和与 Release Notes。
+- [ ] `v0.2.0` 发布候选采用根目录 `app/` 与 `skills/investment-assistant/` 分离结构；待公开标签、校验和和 Release 创建后勾选。
 - [x] GitHub 仓库已启用私密安全报告渠道；`SECURITY.md` 要求安全问题不得进入公开 Issue。
 - [x] 对最终 Git 候选内容完成独立凭证、数据库、日志、大文件和大段 Provider 返回扫描。
 
@@ -47,3 +48,4 @@ GitHub 创建、标签和安全报告渠道属于托管平台发布动作，不�
 - 单 Key 路径：官方材料确认 Agent Plan Key 可直接用于豆包搜索；2026-07-27 的独立单 Key探测中模型与 DataPro 正常，豆包搜索曾返回临时错误 `10500`。该错误按上游运行状态处理，不要求用户补充第二枚 Key；初始化仍以 `doctor.mjs --live` 的当次结果作为可用性门槛。
 - 外部依赖：DataPro、豆包搜索和 Agent Plan 模型的可用性、额度与返回质量仍由用户账号和上游服务决定；本地测试不能替代 Provider 可用性承诺。
 - 开源候选复验：从无 `node_modules`、无 `dist` 的临时副本执行 `npm ci`，安装 181 个依赖且 `npm audit` 为 0；随后完成 36 个 JavaScript 文件检查、249 项测试、1,630 模块生产构建、初始化器测试和 Skill 凭证扫描。
+- 标准结构复验：对照 Agent Skills 规范，将应用源码迁移到根目录 `app/`，Skill 固定为 `skills/investment-assistant/`；仓库安装器在安装阶段生成自包含的 `assets/app/`，源码仓库不保留重复应用副本。

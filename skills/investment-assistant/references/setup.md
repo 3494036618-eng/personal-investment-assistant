@@ -18,7 +18,8 @@
 
 ## 本地目录
 
-- 开源应用源码：`{baseDir}/assets/app`
+- 克隆仓库中的开源应用源码：仓库根目录 `app/`
+- 已安装 Skill 中的应用安装包：`{baseDir}/assets/app`
 - 生产运行时：`~/.local/share/investment-assistant/app`
 - SQLite：`~/.local/share/investment-assistant/investment-assistant.sqlite`
 - PID：`~/.local/share/investment-assistant/run`

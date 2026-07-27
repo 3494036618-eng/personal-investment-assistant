@@ -5,6 +5,9 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const scriptsDir = path.dirname(fileURLToPath(import.meta.url));
+const skillRoot = path.resolve(scriptsDir, '..');
+const repositoryApp = path.resolve(skillRoot, '..', '..', 'app');
+const bundledApp = path.join(skillRoot, 'assets', 'app');
 const cliErrorHandler = Symbol.for('investment-assistant.cli-error-handler');
 
 if (!globalThis[cliErrorHandler]) {
@@ -20,8 +23,10 @@ if (!globalThis[cliErrorHandler]) {
 }
 
 export const paths = {
-  skillRoot: path.resolve(scriptsDir, '..'),
-  sourceApp: path.resolve(scriptsDir, '..', 'assets', 'app'),
+  skillRoot,
+  sourceApp: fs.existsSync(path.join(repositoryApp, 'package.json'))
+    ? repositoryApp
+    : bundledApp,
   installRoot: path.resolve(process.env.INVESTMENT_ASSISTANT_HOME
     || path.join(os.homedir(), '.local', 'share', 'investment-assistant')),
   configDir: path.resolve(process.env.INVESTMENT_ASSISTANT_CONFIG_HOME

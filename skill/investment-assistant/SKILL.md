@@ -7,6 +7,27 @@ description: 中文个人投资助手初始化 Skill。引导用户确认真实�
 
 本 Skill 不是网站设计顾问，也不从零讨论页面方案。仓库已经提供可运行的 React、Express、SQLite、定时调度器和真实 Provider 接入。本 Skill 的任务是把这套应用按用户的真实投资偏好配置好，并交付一个打开后已有个性化内容的网站。
 
+## 远程 Skill 入口
+
+用户可能直接通过下面的公开 Skill URL 触发本流程，而不是预先克隆仓库或安装 Skill：
+
+```text
+https://github.com/3494036618-eng/personal-investment-assistant/blob/main/skill/investment-assistant/SKILL.md
+```
+
+如果当前环境中不存在 `{baseDir}/scripts/status.mjs`，说明本 Skill 是从远程 URL 打开的。此时 Agent 必须：
+
+1. 获取完整仓库 `https://github.com/3494036618-eng/personal-investment-assistant`，不能只下载 `SKILL.md`。
+2. 将 `{baseDir}` 设为仓库中的 `skill/investment-assistant` 目录。
+3. 确认 `scripts/`、`references/` 和 `assets/app/` 均存在后，再进入阶段 0。
+4. 已有同名目录时先核对 Git remote 和工作区状态，不覆盖用户改动，不创建第二套应用。
+
+用户可直接把这句话交给支持联网和终端操作的 Agent：
+
+```text
+帮我初始化个人投资助手：https://github.com/3494036618-eng/personal-investment-assistant/blob/main/skill/investment-assistant/SKILL.md
+```
+
 ## 完成标准
 
 只有以下事项全部完成，才可以说“已经可以使用”：

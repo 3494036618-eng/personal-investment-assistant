@@ -12,7 +12,15 @@
 
 ## 使用一个 Skill 完成初始化
 
-开源用户不需要讨论网站设计，也不需要自己搭前后端。安装中文 Skill 后直接说：
+开源用户不需要讨论网站设计，也不需要自己搭前后端。可以直接把下面这句话发给支持联网和终端操作的 Agent：
+
+```text
+帮我初始化个人投资助手：https://github.com/3494036618-eng/personal-investment-assistant/blob/main/skill/investment-assistant/SKILL.md
+```
+
+该地址直接指向中文 Skill 入口。Agent 会获取完整 Skill 目录及随附的脚本、参考规则和应用资源，然后进入初始化流程。
+
+已经安装中文 Skill 的用户也可以直接说：
 
 ```text
 请使用 $investment-assistant 初始化我的个人投资助手。

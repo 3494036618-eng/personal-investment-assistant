@@ -12,7 +12,7 @@ description: 中文个人投资助手初始化 Skill。引导用户确认真实�
 用户可能直接通过下面的公开 Skill URL 触发本流程，而不是预先克隆仓库或安装 Skill：
 
 ```text
-https://github.com/3494036618-eng/personal-investment-assistant/blob/main/skills/investment-assistant/SKILL.md
+https://github.com/3494036618-eng/personal-investment-assistant/blob/v0.3.0/skills/investment-assistant/SKILL.md
 ```
 
 如果当前环境中不存在 `{baseDir}/scripts/status.mjs`，说明本 Skill 是从远程 URL 打开的。此时 Codex 或 Claude Code 必须：
@@ -27,7 +27,7 @@ https://github.com/3494036618-eng/personal-investment-assistant/blob/main/skills
 用户可直接把这句话交给支持联网和终端操作的 Codex 或 Claude Code：
 
 ```text
-帮我初始化个人投资助手：https://github.com/3494036618-eng/personal-investment-assistant/blob/main/skills/investment-assistant/SKILL.md
+帮我初始化个人投资助手：https://github.com/3494036618-eng/personal-investment-assistant/blob/v0.3.0/skills/investment-assistant/SKILL.md
 ```
 
 已经安装后，Codex 可通过 `$investment-assistant` 触发，Claude Code 可通过

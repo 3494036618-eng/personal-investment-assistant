@@ -15,7 +15,7 @@
 开源用户不需要讨论网站设计，也不需要自己搭前后端。可以直接把下面这句话发给支持联网和终端操作的 Codex 或 Claude Code：
 
 ```text
-帮我初始化个人投资助手：https://github.com/3494036618-eng/personal-investment-assistant/blob/main/skills/investment-assistant/SKILL.md
+帮我初始化个人投资助手：https://github.com/3494036618-eng/personal-investment-assistant/blob/v0.3.0/skills/investment-assistant/SKILL.md
 ```
 
 该地址直接指向中文 Skill 入口。Codex 或 Claude Code 会获取完整仓库，安装与当前客户端匹配的 Skill，并进入同一套初始化流程。

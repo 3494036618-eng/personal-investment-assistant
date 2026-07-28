@@ -32,6 +32,7 @@
 - [x] 项目未附带宣传截图或第三方品牌素材；README 已明确独立项目属性和第三方名称、商标的权利归属。
 - [x] 创建 GitHub 公开仓库 [`3494036618-eng/personal-investment-assistant`](https://github.com/3494036618-eng/personal-investment-assistant)，并准备 `v0.1.3` 标签、SHA-256 校验和与 Release Notes。
 - [x] `v0.2.0` 采用根目录 `app/` 与 `skills/investment-assistant/` 分离结构，已创建公开标签、SHA-256 校验和与 GitHub Release。
+- [ ] `v0.3.0` 发布候选增加 Codex 与 Claude Code 双端 Skill 支持；待公开标签、校验和和 GitHub Release 创建后勾选。
 - [x] GitHub 仓库已启用私密安全报告渠道；`SECURITY.md` 要求安全问题不得进入公开 Issue。
 - [x] 对最终 Git 候选内容完成独立凭证、数据库、日志、大文件和大段 Provider 返回扫描。
 
@@ -50,3 +51,10 @@ GitHub 创建、标签和安全报告渠道属于托管平台发布动作，不�
 - 外部依赖：DataPro、豆包搜索和 Agent Plan 模型的可用性、额度与返回质量仍由用户账号和上游服务决定；本地测试不能替代 Provider 可用性承诺。
 - 开源候选复验：从无 `node_modules`、无 `dist` 的临时副本执行 `npm ci`，安装 181 个依赖且 `npm audit` 为 0；随后完成 36 个 JavaScript 文件检查、249 项测试、1,630 模块生产构建、初始化器测试和 Skill 凭证扫描。
 - 标准结构复验：对照 Agent Skills 规范，将应用源码迁移到根目录 `app/`，Skill 固定为 `skills/investment-assistant/`；仓库安装器在安装阶段生成自包含的 `assets/app/`，源码仓库不保留重复应用副本。
+
+## 2026-07-28 Claude Code 兼容验收
+
+- 客户端支持：同一份中文 Skill 可安装到 Codex 的 `${CODEX_HOME:-~/.codex}/skills/investment-assistant` 或 Claude Code 的 `${CLAUDE_CONFIG_DIR:-~/.claude}/skills/investment-assistant`。
+- 安装验证：两个客户端均通过隔离安装、重复安装阻止、`--force` 原子更新及自包含应用检查，测试未修改真实用户 Skill 目录。
+- 工程验证：36 个 JavaScript 文件静态检查、249 项单元与 API 集成测试、1,630 模块生产构建、Skill 结构校验和凭证扫描全部通过。
+- 交付入口：公开口令固定指向 `v0.3.0` 标签中的 `skills/investment-assistant/SKILL.md`，避免后续 `main` 变化影响已交付版本。

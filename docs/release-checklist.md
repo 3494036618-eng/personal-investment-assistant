@@ -32,7 +32,7 @@
 - [x] 项目未附带宣传截图或第三方品牌素材；README 已明确独立项目属性和第三方名称、商标的权利归属。
 - [x] 创建 GitHub 公开仓库 [`3494036618-eng/personal-investment-assistant`](https://github.com/3494036618-eng/personal-investment-assistant)，并准备 `v0.1.3` 标签、SHA-256 校验和与 Release Notes。
 - [x] `v0.2.0` 采用根目录 `app/` 与 `skills/investment-assistant/` 分离结构，已创建公开标签、SHA-256 校验和与 GitHub Release。
-- [ ] `v0.3.0` 发布候选增加 Codex 与 Claude Code 双端 Skill 支持；待公开标签、校验和和 GitHub Release 创建后勾选。
+- [x] `v0.3.0` 增加 Codex 与 Claude Code 双端 Skill 支持，已创建公开标签、SHA-256 校验和与 GitHub Release。
 - [x] GitHub 仓库已启用私密安全报告渠道；`SECURITY.md` 要求安全问题不得进入公开 Issue。
 - [x] 对最终 Git 候选内容完成独立凭证、数据库、日志、大文件和大段 Provider 返回扫描。
 

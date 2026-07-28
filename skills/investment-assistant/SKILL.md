@@ -15,18 +15,23 @@ description: 中文个人投资助手初始化 Skill。引导用户确认真实�
 https://github.com/3494036618-eng/personal-investment-assistant/blob/main/skills/investment-assistant/SKILL.md
 ```
 
-如果当前环境中不存在 `{baseDir}/scripts/status.mjs`，说明本 Skill 是从远程 URL 打开的。此时 Agent 必须：
+如果当前环境中不存在 `{baseDir}/scripts/status.mjs`，说明本 Skill 是从远程 URL 打开的。此时 Codex 或 Claude Code 必须：
 
 1. 获取完整仓库 `https://github.com/3494036618-eng/personal-investment-assistant`，不能只下载 `SKILL.md`。
 2. 将 `{baseDir}` 设为仓库中的 `skills/investment-assistant` 目录。
 3. 确认 `{baseDir}/scripts/`、`{baseDir}/references/` 和仓库根目录 `app/` 均存在后，再进入阶段 0。
 4. 已有同名目录时先核对 Git remote 和工作区状态，不覆盖用户改动，不创建第二套应用。
+5. 当前客户端是 Codex 时，在仓库根目录执行 `npm run skill:install:codex`；当前客户端是 Claude Code 时执行 `npm run skill:install:claude`。安装只写入对应客户端的个人 Skill 目录。
+6. 安装完成后直接使用当前仓库中的 Skill 继续初始化，不把“Skill 已复制”说成“网站已经可用”。
 
-用户可直接把这句话交给支持联网和终端操作的 Agent：
+用户可直接把这句话交给支持联网和终端操作的 Codex 或 Claude Code：
 
 ```text
 帮我初始化个人投资助手：https://github.com/3494036618-eng/personal-investment-assistant/blob/main/skills/investment-assistant/SKILL.md
 ```
+
+已经安装后，Codex 可通过 `$investment-assistant` 触发，Claude Code 可通过
+`/investment-assistant` 触发；两种入口执行同一套初始化和验收规则。
 
 ## 完成标准
 

@@ -19,6 +19,8 @@
 ## 本地目录
 
 - 克隆仓库中的开源应用源码：仓库根目录 `app/`
+- Codex 个人 Skill：`${CODEX_HOME:-~/.codex}/skills/investment-assistant`
+- Claude Code 个人 Skill：`${CLAUDE_CONFIG_DIR:-~/.claude}/skills/investment-assistant`
 - 已安装 Skill 中的应用安装包：`{baseDir}/assets/app`
 - 生产运行时：`~/.local/share/investment-assistant/app`
 - SQLite：`~/.local/share/investment-assistant/investment-assistant.sqlite`
@@ -27,6 +29,22 @@
 - 凭证：`~/.config/investment-assistant/credentials.env`
 
 凭证文件权限为 `0600`。可用 `INVESTMENT_ASSISTANT_HOME`、`INVESTMENT_ASSISTANT_CONFIG_HOME` 和 `INVESTMENT_ASSISTANT_CREDENTIALS_FILE` 覆盖默认位置。
+
+## 安装到 Agent 客户端
+
+在仓库根目录按实际客户端执行：
+
+```bash
+# Codex
+npm run skill:install:codex
+
+# Claude Code
+npm run skill:install:claude
+```
+
+需要同时安装时执行 `npm run skill:install:all`。更新已有 Skill 时追加 `-- --force`。
+两个客户端安装的是同一份 `SKILL.md`、脚本、参考规则和应用包，不存在两套业务逻辑。
+Codex 使用 `$investment-assistant`，Claude Code 使用 `/investment-assistant` 触发。
 
 ## 一键初始化
 

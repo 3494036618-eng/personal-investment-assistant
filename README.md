@@ -12,18 +12,22 @@
 
 ## 使用一个 Skill 完成初始化
 
-开源用户不需要讨论网站设计，也不需要自己搭前后端。可以直接把下面这句话发给支持联网和终端操作的 Agent：
+开源用户不需要讨论网站设计，也不需要自己搭前后端。可以直接把下面这句话发给支持联网和终端操作的 Codex 或 Claude Code：
 
 ```text
 帮我初始化个人投资助手：https://github.com/3494036618-eng/personal-investment-assistant/blob/main/skills/investment-assistant/SKILL.md
 ```
 
-该地址直接指向中文 Skill 入口。Agent 会获取完整 Skill 目录及随附的脚本、参考规则和应用资源，然后进入初始化流程。
+该地址直接指向中文 Skill 入口。Codex 或 Claude Code 会获取完整仓库，安装与当前客户端匹配的 Skill，并进入同一套初始化流程。
 
-已经安装中文 Skill 的用户也可以直接说：
+已经安装中文 Skill 后：
 
 ```text
+# Codex
 请使用 $investment-assistant 初始化我的个人投资助手。
+
+# Claude Code
+/investment-assistant 初始化我的个人投资助手
 ```
 
 Skill 会先收集用户配置：
@@ -46,19 +50,28 @@ Skill 会先收集用户配置：
 
 ## 安装 Skill
 
-在仓库根目录执行：
+Codex：
 
 ```bash
-npm run skill:install
+npm run skill:install:codex
 ```
 
-更新已有 Skill：
+Claude Code：
 
 ```bash
-npm run skill:install -- --force
+npm run skill:install:claude
 ```
 
-安装后重新启动支持 Agent Skills 的客户端，再使用上面的初始化口令。
+同时安装到两个客户端：
+
+```bash
+npm run skill:install:all
+```
+
+更新已有 Skill 时在对应命令后追加 `-- --force`。Codex 安装位置为
+`${CODEX_HOME:-~/.codex}/skills/investment-assistant`；Claude Code 安装位置为
+`${CLAUDE_CONFIG_DIR:-~/.claude}/skills/investment-assistant`。Claude Code 通常会实时
+检测已有 Skill 目录的变化；若当前会话没有出现 `/investment-assistant`，重新启动客户端。
 
 ## Skill 的实际流程
 
@@ -223,7 +236,8 @@ skills/
     └── references/
 
 scripts/
-└── 仓库级 Skill 安装与验证脚本
+├── Codex 与 Claude Code 安装器
+└── 仓库级 Skill 验证脚本
 ```
 
 ## 安全与免责声明

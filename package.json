@@ -11,6 +11,9 @@
     "app:check": "npm --prefix app run check",
     "skill:test": "node scripts/test-initializer.mjs",
     "skill:install": "node scripts/install-codex-skill.mjs",
+    "skill:install:codex": "node scripts/install-codex-skill.mjs",
+    "skill:install:claude": "node scripts/install-claude-code-skill.mjs",
+    "skill:install:all": "node scripts/install-agent-skill.mjs --target all",
     "skill:validate": "node scripts/validate-skill.mjs",
     "verify": "npm run app:check && npm run app:test && npm run app:build && npm run skill:test && npm run skill:validate"
   },

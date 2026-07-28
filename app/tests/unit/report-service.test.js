@@ -1938,6 +1938,13 @@ test('saves a no-alert monitor result with an auditable coverage record', async 
     focus: ['海外客户合作'],
     semanticPreferenceEnabled: true,
     semanticQueryPlan: { queries: [] },
+    webItems: [{
+      title: '示例科技签署海外储能合作协议',
+      publisher: '新浪财经',
+      url: 'https://finance.sina.cn/notice',
+      summary: '示例科技与海外客户签署储能合作协议，双方计划推进后续项目交付。',
+      published_at: new Date(Date.now() - 48 * 60 * 60 * 1000).toISOString(),
+    }],
     semanticEvidenceBindings: {
       matches: [{
         candidate_id: 'S1',

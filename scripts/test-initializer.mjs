@@ -16,6 +16,7 @@ const sandbox = fs.mkdtempSync(path.join(os.tmpdir(), 'investment-assistant-init
 const configDir = path.join(sandbox, 'config');
 const installRoot = path.join(sandbox, 'runtime');
 const codexHome = path.join(sandbox, 'codex');
+const claudeConfigDir = path.join(sandbox, 'claude');
 fs.mkdirSync(configDir, { recursive: true });
 fs.writeFileSync(path.join(configDir, 'credentials.env'), [
   'ARK_API_KEY="single-agent-plan-key"',
@@ -57,16 +58,52 @@ try {
   assertApplicationSource(paths.sourceApp);
   assert.equal(paths.sourceApp, path.join(root, 'app'));
 
-  const installResult = spawnSync(process.execPath, [
-    path.join(root, 'scripts', 'install-codex-skill.mjs'),
-  ], {
-    env: { ...process.env, CODEX_HOME: codexHome },
-    encoding: 'utf8',
-  });
-  assert.equal(installResult.status, 0, installResult.stderr || installResult.stdout);
-  const installedSkill = path.join(codexHome, 'skills', 'investment-assistant');
-  assert.ok(fs.existsSync(path.join(installedSkill, 'SKILL.md')));
-  assertApplicationSource(path.join(installedSkill, 'assets', 'app'));
+  const clientInstallations = [
+    {
+      label: 'Codex',
+      script: 'install-codex-skill.mjs',
+      environment: { CODEX_HOME: codexHome },
+      installedSkill: path.join(codexHome, 'skills', 'investment-assistant'),
+    },
+    {
+      label: 'Claude Code',
+      script: 'install-claude-code-skill.mjs',
+      environment: { CLAUDE_CONFIG_DIR: claudeConfigDir },
+      installedSkill: path.join(claudeConfigDir, 'skills', 'investment-assistant'),
+    },
+  ];
+
+  for (const client of clientInstallations) {
+    const installResult = spawnSync(process.execPath, [
+      path.join(root, 'scripts', client.script),
+    ], {
+      env: { ...process.env, ...client.environment },
+      encoding: 'utf8',
+    });
+    assert.equal(installResult.status, 0, installResult.stderr || installResult.stdout);
+    assert.match(installResult.stdout, new RegExp(`${client.label} Skill 已安装`));
+    assert.ok(fs.existsSync(path.join(client.installedSkill, 'SKILL.md')));
+    assertApplicationSource(path.join(client.installedSkill, 'assets', 'app'));
+
+    const duplicateResult = spawnSync(process.execPath, [
+      path.join(root, 'scripts', client.script),
+    ], {
+      env: { ...process.env, ...client.environment },
+      encoding: 'utf8',
+    });
+    assert.equal(duplicateResult.status, 1);
+    assert.match(duplicateResult.stderr, /Skill 已存在/u);
+
+    const updateResult = spawnSync(process.execPath, [
+      path.join(root, 'scripts', client.script),
+      '--force',
+    ], {
+      env: { ...process.env, ...client.environment },
+      encoding: 'utf8',
+    });
+    assert.equal(updateResult.status, 0, updateResult.stderr || updateResult.stdout);
+    assertApplicationSource(path.join(client.installedSkill, 'assets', 'app'));
+  }
 
   const onboardText = fs.readFileSync(path.join(skillRoot, 'scripts', 'onboard.mjs'), 'utf8');
   assert.doesNotMatch(onboardText, /project\.mjs|--target/u);
@@ -152,7 +189,7 @@ try {
   assert.equal(canonicalSecurityCode('NASDAQ:AAPL'), 'AAPL');
 
   process.stdout.write(
-    'Initializer single-key configuration, separated app source, self-contained Skill packaging, onboarding flow, credential isolation, and acceptance validators passed.\n',
+    'Initializer single-key configuration, Codex and Claude Code isolated installation, self-contained Skill packaging, onboarding flow, credential isolation, and acceptance validators passed.\n',
   );
 } finally {
   fs.rmSync(sandbox, { recursive: true, force: true });

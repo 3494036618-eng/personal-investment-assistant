@@ -4,6 +4,7 @@
 
 - [x] `npm run verify` 完成应用静态检查、单元与 API 集成测试、生产构建、初始化器测试、Skill 结构校验和凭证扫描。
 - [x] 中文 Skill 只初始化仓库内现成网站，不讨论网站方案，也不创建第二份用户项目。
+- [x] 同一份 Skill 支持安装到 Codex 与 Claude Code 的个人 Skill 目录，双客户端安装、重复安装保护和强制更新均通过隔离测试。
 - [x] Skill 会先收集并确认证券名称、代码、市场、逐股关注偏好和盘后监控安排。
 - [x] 初始化默认使用一枚 Agent Plan Key；DataPro 和豆包搜索继承该 Key，同时保留显式高级覆盖项。
 - [x] 已对照官方接入说明确认：用户在 Agent Plan 中开启豆包搜索 Harness 后，使用同一枚 Agent Plan 专属 API Key 调用模型、DataPro 和豆包搜索，不要求第二枚搜索 Key。

@@ -7,6 +7,12 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const skillRoot = path.join(root, 'skills', 'investment-assistant');
 const appRoot = path.join(root, 'app');
 const skillFile = path.join(skillRoot, 'SKILL.md');
+const rootScripts = [
+  'scripts/install-agent-skill.mjs',
+  'scripts/install-codex-skill.mjs',
+  'scripts/install-claude-code-skill.mjs',
+  'scripts/test-initializer.mjs',
+];
 const requiredFiles = [
   'SKILL.md',
   'agents/openai.yaml',
@@ -31,6 +37,13 @@ const requiredFiles = [
 
 for (const relative of requiredFiles) {
   if (!fs.existsSync(path.join(skillRoot, relative))) throw new Error(`Skill 缺少文件：${relative}`);
+}
+for (const relative of rootScripts) {
+  if (!fs.existsSync(path.join(root, relative))) throw new Error(`仓库缺少文件：${relative}`);
+  const result = spawnSync(process.execPath, ['--check', path.join(root, relative)], {
+    encoding: 'utf8',
+  });
+  if (result.status !== 0) throw new Error(result.stderr || `脚本语法检查失败：${relative}`);
 }
 
 for (const relative of [
@@ -93,6 +106,10 @@ for (const requiredText of [
   '每只股票至少生成一份个股简评和一份盘后风险摘要',
   '两类报告职责不同',
   '/skills/investment-assistant/SKILL.md',
+  'Codex 或 Claude Code',
+  'npm run skill:install:codex',
+  'npm run skill:install:claude',
+  '/investment-assistant',
 ]) {
   if (!skillText.includes(requiredText)) throw new Error(`SKILL.md 缺少初始化关键规则：${requiredText}`);
 }
@@ -135,11 +152,34 @@ for (const marker of [
   '先收集用户配置',
   '打开网站时已经有内容',
   '只需要一枚 Agent Plan Key',
+  'Codex 或 Claude Code',
+  'npm run skill:install:codex',
+  'npm run skill:install:claude',
+  '/investment-assistant',
 ]) {
   if (!readmeText.includes(marker)) throw new Error(`README 缺少主入口说明：${marker}`);
 }
 if (/Builder|先讨论网站方案|--target/u.test(readmeText)) {
   throw new Error('README 仍包含废弃 Builder 流程。');
+}
+
+const installerText = fs.readFileSync(path.join(root, 'scripts', 'install-agent-skill.mjs'), 'utf8');
+for (const marker of [
+  'CODEX_HOME',
+  'CLAUDE_CONFIG_DIR',
+  "path.join(os.homedir(), '.codex')",
+  "path.join(os.homedir(), '.claude')",
+]) {
+  if (!installerText.includes(marker)) throw new Error(`双客户端安装器缺少：${marker}`);
+}
+
+const packageJson = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
+for (const scriptName of [
+  'skill:install:codex',
+  'skill:install:claude',
+  'skill:install:all',
+]) {
+  if (!packageJson.scripts?.[scriptName]) throw new Error(`package.json 缺少命令：${scriptName}`);
 }
 
 const secretPattern = /ark-[A-Za-z0-9]{8,}(?:-[A-Za-z0-9]{4,}){2,}/g;
